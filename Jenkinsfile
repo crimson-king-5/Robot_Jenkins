@@ -44,7 +44,7 @@ pipeline {
             steps {
                 bat '''
                     set /p TOKEN=<token.txt
-                    curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
+                    curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=%PROJECT_KEY%" ^
                     -H "Content-Type: application/xml" ^
                     -H "Authorization: Bearer %TOKEN%" ^
                     --data @results\\xunit.xml
