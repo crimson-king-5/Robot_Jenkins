@@ -41,13 +41,12 @@ pipeline {
 
         stage('Upload Results to Xray') {
             steps {
-                bat '''
-                set /p TOKEN=<token.txt
-               curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
+               bat """
+                curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
                 -H "Content-Type: application/xml" ^
                 -H "Authorization: Bearer %TOKEN%" ^
-                --data @results\xunit.xml
-                '''
+                --data @results\\xunit.xml
+                """
             }
         }
     }
