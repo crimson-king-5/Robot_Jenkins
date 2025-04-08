@@ -2,61 +2,63 @@ pipeline {
     agent any
 
     environment {
-        RESULTS_DIR = 'results'
+        CLIENT_ID     = credentials('Xray_Client_ID')
+        CLIENT_SECRET = credentials('Xray_Client_Secret')
+        PROJECT_KEY   = 'POEI20252'
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/crimson-king-5/Robot_Jenkins.git'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                bat '''
-                pip install robotframework robotframework-seleniumlibrary
-                '''
+                bat 'pip install robotframework robotframework-seleniumlibrary'
             }
         }
 
         stage('Run Robot Tests') {
             steps {
                 bat '''
-                mkdir %RESULTS_DIR%
-                robot --outputdir %RESULTS_DIR% --xunit xunit.xml tests/
+                    mkdir results
+                    robot --outputdir results --xunit xunit.xml tests/
                 '''
             }
         }
 
         stage('Generate Xray Token') {
             steps {
-                withCredentials([
-                    string(credentialsId: 'Clien_ID', variable: 'CLIENT_ID'),
-                    string(credentialsId: 'Client_Secret', variable: 'CLIENT_SECRET')
-                ]) {
+                withCredentials([string(credentialsId: 'Xray_Client_ID', variable: 'CLIENT_ID'),
+                                 string(credentialsId: 'Xray_Client_Secret', variable: 'CLIENT_SECRET')]) {
                     bat '''
-                        set /p TOKEN=<token.txt
-                        curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
-                        -H "Content-Type: application/xml" ^
-                        -H "Authorization: Bearer %TOKEN%" ^
-                        --data @results\\xunit.xml
-                        '''
+                        curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
+                        -H "Content-Type: application/json" ^
+                        -d "{\\"client_id\\": \\"%CLIENT_ID%\\", \\"client_secret\\": \\"%CLIENT_SECRET%\\"}" ^
+                        -o token.txt
+                    '''
                 }
             }
         }
 
         stage('Upload Results to Xray') {
-    steps {
-        script {
-            bat '''
-                set /p TOKEN=<token.txt
-                curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
-                 -H "Content-Type: application/xml" ^
-                 -H "Authorization: Bearer %TOKEN%" ^
-                 --data @results\\xunit.xml
-            '''
+            steps {
+                bat '''
+                    set /p TOKEN=<token.txt
+                    curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
+                    -H "Content-Type: application/xml" ^
+                    -H "Authorization: Bearer %TOKEN%" ^
+                    --data @results\\xunit.xml
+                '''
+            }
         }
     }
-}
 
     post {
         always {
-            archiveArtifacts artifacts: 'results/*', fingerprint: true
+            archiveArtifacts artifacts: 'results/**/*.*', fingerprint: true
         }
     }
 }
