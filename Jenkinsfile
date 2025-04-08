@@ -34,7 +34,7 @@ pipeline {
                 bat """
                     curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
                     -H "Content-Type: application/json" ^
-                    -d "{\\"client_id\\": \\"${CLIENT_ID}\\", \\"client_secret\\": \\"${CLIENT_SECRET}\\"}" ^
+                    -d "{\\"client_id\\": \\"${CLIEN_ID}\\", \\"client_secret\\": \\"${CLIENT_SECRET}\\"}" ^
                     -o token.txt
                 """
             }
