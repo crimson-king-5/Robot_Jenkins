@@ -30,11 +30,12 @@ pipeline {
                     string(credentialsId: 'Client_Secret', variable: 'CLIENT_SECRET')
                 ]) {
                     bat '''
-                    curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
-                         -H "Content-Type: application/json" ^
-                         -d "{\\"client_id\\": \\"%CLIENT_ID%\\", \\"client_secret\\": \\"%CLIENT_SECRET%\\"}" ^
-                         -o token.txt
-                    '''
+                        set /p TOKEN=<token.txt
+                        curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=POEI20252 ^
+                        -H "Content-Type: application/xml" ^
+                        -H "Authorization: Bearer %TOKEN%" ^
+                        --data @results\\xunit.xml
+                        '''
                 }
             }
         }
