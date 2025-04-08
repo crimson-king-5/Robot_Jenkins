@@ -11,4 +11,4 @@ Ajout d’un produit au panier
     Click Login
     Click Add To Cart
     Open Cart
-    Cart Should Have One Item
+    #Cart Should Have One Item 

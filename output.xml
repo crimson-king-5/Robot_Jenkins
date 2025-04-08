@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-04-08T14:45:25.066245" rpa="false" schemaversion="5">
+<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-04-08T16:52:37.438166" rpa="false" schemaversion="5">
 <suite id="s1" name="PanierTest" source="c:\Users\IB\Desktop\Robot_Jenkins\tests\PanierTest.robot">
 <test id="s1-t1" name="Ajout d’un produit au panier" line="8">
 <kw name="Open Login Page" owner="LoginPage" type="SETUP">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:25.225761" level="INFO">Opening browser 'chrome' to base url 'https://www.saucedemo.com'.</msg>
+<msg time="2025-04-08T16:52:37.597658" level="INFO">Opening browser 'chrome' to base url 'https://www.saucedemo.com'.</msg>
 <arg>${URL}</arg>
 <arg>chrome</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2025-04-08T14:45:25.225521" elapsed="1.503168"/>
+<status status="PASS" start="2025-04-08T16:52:37.597410" elapsed="1.396308"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2025-04-08T14:45:26.729112" elapsed="0.031131"/>
+<status status="PASS" start="2025-04-08T16:52:38.994028" elapsed="0.028308"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>${USERNAME_LOC}</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-04-08T14:45:26.760628" elapsed="0.016096"/>
+<status status="PASS" start="2025-04-08T16:52:39.022893" elapsed="0.015299"/>
 </kw>
-<status status="PASS" start="2025-04-08T14:45:25.224958" elapsed="1.552114"/>
+<status status="PASS" start="2025-04-08T16:52:37.596853" elapsed="1.441585"/>
 </kw>
 <kw name="Enter Credentials" owner="LoginPage">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:26.778287" level="INFO">Typing text 'standard_user' into text field 'id=user-name'.</msg>
+<msg time="2025-04-08T16:52:39.039836" level="INFO">Typing text 'standard_user' into text field 'id=user-name'.</msg>
 <arg>${USERNAME_LOC}</arg>
 <arg>${user}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-04-08T14:45:26.778014" elapsed="0.072441"/>
+<status status="PASS" start="2025-04-08T16:52:39.039586" elapsed="0.072048"/>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:26.851009" level="INFO">Typing text 'secret_sauce' into text field 'id=password'.</msg>
+<msg time="2025-04-08T16:52:39.112281" level="INFO">Typing text 'secret_sauce' into text field 'id=password'.</msg>
 <arg>${PASSWORD_LOC}</arg>
 <arg>${pass}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-04-08T14:45:26.850721" elapsed="0.049276"/>
+<status status="PASS" start="2025-04-08T16:52:39.111995" elapsed="0.048421"/>
 </kw>
 <arg>standard_user</arg>
 <arg>secret_sauce</arg>
-<status status="PASS" start="2025-04-08T14:45:26.777599" elapsed="0.122595"/>
+<status status="PASS" start="2025-04-08T16:52:39.039185" elapsed="0.121828"/>
 </kw>
 <kw name="Click Login" owner="LoginPage">
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:26.901214" level="INFO">Clicking button 'id=login-button'.</msg>
+<msg time="2025-04-08T16:52:39.161963" level="INFO">Clicking button 'id=login-button'.</msg>
 <arg>${LOGIN_BTN}</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-04-08T14:45:26.900993" elapsed="0.067620"/>
+<status status="PASS" start="2025-04-08T16:52:39.161760" elapsed="0.069811"/>
 </kw>
-<status status="PASS" start="2025-04-08T14:45:26.900664" elapsed="0.068142"/>
+<status status="PASS" start="2025-04-08T16:52:39.161464" elapsed="0.070311"/>
 </kw>
 <kw name="Click Add To Cart" owner="ProductPage">
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:26.970078" level="INFO">Clicking button 'xpath=//button[text()='Add to cart']'.</msg>
+<msg time="2025-04-08T16:52:39.233221" level="INFO">Clicking button 'xpath=//button[text()='Add to cart']'.</msg>
 <arg>${PRODUCT_ADD_BTN}</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-04-08T14:45:26.969758" elapsed="0.069179"/>
+<status status="PASS" start="2025-04-08T16:52:39.232832" elapsed="0.069407"/>
 </kw>
-<status status="PASS" start="2025-04-08T14:45:26.969321" elapsed="0.069798"/>
+<status status="PASS" start="2025-04-08T16:52:39.232334" elapsed="0.070089"/>
 </kw>
 <kw name="Open Cart" owner="ProductPage">
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:27.039982" level="INFO">Clicking element 'id=shopping_cart_container'.</msg>
+<msg time="2025-04-08T16:52:39.303499" level="INFO">Clicking element 'id=shopping_cart_container'.</msg>
 <arg>${CART_ICON}</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-04-08T14:45:27.039784" elapsed="0.034027"/>
+<status status="PASS" start="2025-04-08T16:52:39.303292" elapsed="0.038832"/>
 </kw>
-<status status="PASS" start="2025-04-08T14:45:27.039498" elapsed="0.034510"/>
+<status status="PASS" start="2025-04-08T16:52:39.302998" elapsed="0.039319"/>
 </kw>
 <kw name="Cart Should Have One Item" owner="ProductPage">
 <kw name="Element Should Contain" owner="SeleniumLibrary">
-<msg time="2025-04-08T14:45:27.092311" level="INFO">Element 'class=shopping_cart_badge' contains text '1'.</msg>
+<msg time="2025-04-08T16:52:39.357187" level="INFO">Element 'class=shopping_cart_badge' contains text '1'.</msg>
 <arg>${CART_BADGE}</arg>
 <arg>1</arg>
 <doc>Verifies that element ``locator`` contains text ``expected``.</doc>
-<status status="PASS" start="2025-04-08T14:45:27.074803" elapsed="0.017730"/>
+<status status="PASS" start="2025-04-08T16:52:39.343012" elapsed="0.014495"/>
 </kw>
-<status status="PASS" start="2025-04-08T14:45:27.074468" elapsed="0.018190"/>
+<status status="PASS" start="2025-04-08T16:52:39.342698" elapsed="0.014939"/>
 </kw>
 <kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
 <doc>Closes the current browser.</doc>
-<status status="PASS" start="2025-04-08T14:45:27.093089" elapsed="2.106277"/>
+<status status="PASS" start="2025-04-08T16:52:39.358095" elapsed="2.093224"/>
 </kw>
 <tag>XRAY-AJOUT-PANIER</tag>
-<status status="PASS" start="2025-04-08T14:45:25.224153" elapsed="3.976132"/>
+<status status="PASS" start="2025-04-08T16:52:37.596106" elapsed="3.856002"/>
 </test>
-<status status="PASS" start="2025-04-08T14:45:25.069211" elapsed="4.132944"/>
+<status status="PASS" start="2025-04-08T16:52:37.441213" elapsed="4.012859"/>
 </suite>
 <statistics>
 <total>
