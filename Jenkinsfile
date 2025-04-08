@@ -31,15 +31,12 @@ pipeline {
 
         stage('Generate Xray Token') {
             steps {
-                withCredentials([string(credentialsId: 'Xray_Client_ID', variable: 'CLIENT_ID'),
-                                 string(credentialsId: 'Xray_Client_Secret', variable: 'CLIENT_SECRET')]) {
-                    bat '''
-                        curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
-                        -H "Content-Type: application/json" ^
-                        -d "{\\"client_id\\": \\"%CLIENT_ID%\\", \\"client_secret\\": \\"%CLIENT_SECRET%\\"}" ^
-                        -o token.txt
-                    '''
-                }
+                bat """
+                    curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
+                    -H "Content-Type: application/json" ^
+                    -d "{\\"client_id\\": \\"${CLIENT_ID}\\", \\"client_secret\\": \\"${CLIENT_SECRET}\\"}" ^
+                    -o token.txt
+                """
             }
         }
 
