@@ -9,7 +9,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat '''
-                pip install robotframework robotframework-seleniumlibrary robotframework-xunit
+                pip install robotframework robotframework-seleniumlibrary
                 '''
             }
         }
