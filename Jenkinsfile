@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh '''
+                bat '''
                 pip install robotframework robotframework-seleniumlibrary robotframework-xunit
                 '''
             }
@@ -16,9 +16,9 @@ pipeline {
 
         stage('Run Robot Tests') {
             steps {
-                sh '''
-                mkdir -p ${RESULTS_DIR}
-                robot --outputdir ${RESULTS_DIR} --xunit xunit.xml tests/
+                bat '''
+                mkdir %RESULTS_DIR%
+                robot --outputdir %RESULTS_DIR% --xunit xunit.xml tests/
                 '''
             }
         }
@@ -29,31 +29,24 @@ pipeline {
                     string(credentialsId: 'Clien_ID', variable: 'CLIENT_ID'),
                     string(credentialsId: 'Client_Secret', variable: 'CLIENT_SECRET')
                 ]) {
-                    script {
-                        def token = sh(
-                            script: """
-                            curl -s -X POST https://xray.cloud.getxray.app/api/v2/authenticate \\
-                            -H "Content-Type: application/json" \\
-                            -d '{
-                                "client_id": "${CLIENT_ID}",
-                                "client_secret": "${CLIENT_SECRET}"
-                            }'
-                            """,
-                            returnStdout: true
-                        ).trim()
-                        env.XRAY_TOKEN = token.replaceAll('"', '')
-                    }
+                    bat '''
+                    curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
+                         -H "Content-Type: application/json" ^
+                         -d "{\\"client_id\\": \\"%CLIENT_ID%\\", \\"client_secret\\": \\"%CLIENT_SECRET%\\"}" ^
+                         -o token.txt
+                    '''
                 }
             }
         }
 
         stage('Upload Results to Xray') {
             steps {
-                sh '''
-                curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit \\
-                     -H "Content-Type: application/xml" \\
-                     -H "Authorization: Bearer ${XRAY_TOKEN}" \\
-                     --data @${RESULTS_DIR}/xunit.xml
+                bat '''
+                set /p TOKEN=<token.txt
+                curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/junit ^
+                     -H "Content-Type: application/xml" ^
+                     -H "Authorization: Bearer %TOKEN%" ^
+                     --data @%RESULTS_DIR%\\xunit.xml
                 '''
             }
         }
