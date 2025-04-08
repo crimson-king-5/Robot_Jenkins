@@ -51,7 +51,7 @@ pipeline {
                     bat """
                         curl -X POST https://discordapp.com/api/webhooks/1359154405147934992/2RwoZD57gNSStkB8yxAUT4O7jAe7OOAECZTCuMj9tDW6RBHYUaCjgon1E05MoTjsaQlg ^
                         -H "Content-Type: application/json" ^
-                        -d "{\\"username\\": \\"pain\\", \\"content\\": \\"Baguette \\"}" ^ 
+                        -d "{\\"username\\": \\"POKAWA Poké bowls\\", \\"content\\": \\"Nous poke Bowls seulement a 18Euros @landrien \\"}" ^ 
                     """
                 }
             }
