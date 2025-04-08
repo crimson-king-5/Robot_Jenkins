@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CLIEN_ID     = credentials('Xray_Client_ID')
+        CLIENT_ID     = credentials('Xray_Client_ID')
         CLIENT_SECRET = credentials('Xray_Client_Secret')
         PROJECT_KEY   = 'POEI20252'
     }
@@ -34,7 +34,7 @@ pipeline {
                 bat """
                     curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
                     -H "Content-Type: application/json" ^
-                    -d "{\\"client_id\\": \\"${CLIEN_ID}\\", \\"client_secret\\": \\"${CLIENT_SECRET}\\"}" ^
+                    -d "{\\"client_id\\": \\"${CLIENT_ID}\\", \\"client_secret\\": \\"${CLIENT_SECRET}\\"}" ^
                     -o token.txt
                 """
             }
