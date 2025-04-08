@@ -2,55 +2,59 @@ pipeline {
     agent any
 
     environment {
-        CLIENT_ID     = credentials('Xray_Client_ID')
-        CLIENT_SECRET = credentials('Xray_Client_Secret')
-        PROJECT_KEY   = 'POEI20252'
+        XRAY_AUTH_URL = 'https://xray.cloud.getxray.app/api/v2/authenticate'
+        XRAY_EXPORT_URL = 'https://xray.cloud.getxray.app/api/v2/export/cucumber?keys=POEI20252-526'
+        CLIENT_ID = '4605A4D2C42F45CB8F9DC2D31F907A61'
+        CLIENT_SECRET = '1afa35803d7e7503def56778a40f15ac6558bf4590e85c838a0386ea41ffa829'
+        XRAY_TOKEN = ""
     }
 
     stages {
-        stage('Checkout') {
+        stage('Authenticate with Xray') {
             steps {
-                git branch: 'main', url: 'https://github.com/crimson-king-5/Robot_Jenkins.git'
+                script {
+                    def response = bat(script: """
+                        curl -H "Content-Type: application/json" -X POST ^
+                        ${env.XRAY_AUTH_URL} ^
+                        --data "{ \\"client_id\\": \\"${env.CLIENT_ID}\\", \\"client_secret\\": \\"${env.CLIENT_SECRET}\\" }"
+                    """, returnStdout: true).trim()
+
+                    def lines = response.readLines()
+                    def token = lines[1].replaceAll('"', '').trim()
+                   XRAY_TOKEN = token
+                   echo "Xray Token: ${XRAY_TOKEN}"
+                }
+            }
+        }
+       stage('test'){
+            steps{
+                bat 'robot -d ./outputs ./tests'
+            }
+        
+        }
+        stage('Send Results to Xray') {
+            steps {
+                script {
+                    bat """
+                        curl -X POST https://xray.cloud.getxray.app/api/v2/import/execution/robot?projectKey=POEI20252 ^
+                        -H "Content-Type: application/xml" ^
+                        -H "Authorization: Bearer ${XRAY_TOKEN}" ^
+                        --data @"outputs/output.xml"
+                    """
+                }
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Discord Notification') {
             steps {
-                bat 'pip install robotframework robotframework-seleniumlibrary'
+                script {
+                    bat """
+                        curl -X POST https://discordapp.com/api/webhooks/1359154405147934992/2RwoZD57gNSStkB8yxAUT4O7jAe7OOAECZTCuMj9tDW6RBHYUaCjgon1E05MoTjsaQlg ^
+                        -H "Content-Type: application/json" ^
+                        -d "{\\"username\\": \\"pain\\", \\"content\\": \\"Baguette \\"}" ^ 
+                    """
+                }
             }
         }
 
-        stage('Run Robot Tests') {
-            steps {
-                bat '''
-                    robot --outputdir results --xunit xunit.xml tests/
-                '''
-            }
-        }
-
-        stage('Generate Xray Token') {
-            steps {
-                bat """
-                    curl -X POST https://xray.cloud.getxray.app/api/v2/authenticate ^
-                    -H "Content-Type: application/json" ^
-                    -d "{\\"client_id\\": \\"${CLIENT_ID}\\", \\"client_secret\\": \\"${CLIENT_SECRET}\\"}" ^
-                    -o token.txt
-                """
-            }
-        }
-
-        stage('Upload Results to Xray') {
-            steps {
-                bat '''
-                    set /p TOKEN=<token.txt
-                    curl -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=%PROJECT_KEY%" ^
-                    -H "Content-Type: application/xml" ^
-                    -H "Authorization: Bearer %TOKEN%" ^
-                    --data @results\\xunit.xml
-                '''
-            }
-        }
-    }
-
-  
-}
+    }}
