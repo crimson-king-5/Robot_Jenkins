@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CLIENT_ID     = credentials('Xray_Client_ID')
+        CLIEN_ID     = credentials('Xray_Client_ID')
         CLIENT_SECRET = credentials('Xray_Client_Secret')
         PROJECT_KEY   = 'POEI20252'
     }
