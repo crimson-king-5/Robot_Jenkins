@@ -23,7 +23,6 @@ pipeline {
         stage('Run Robot Tests') {
             steps {
                 bat '''
-                    mkdir results
                     robot --outputdir results --xunit xunit.xml tests/
                 '''
             }
@@ -53,9 +52,5 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            archiveArtifacts artifacts: 'results/**/*.*', fingerprint: true
-        }
-    }
+  
 }
